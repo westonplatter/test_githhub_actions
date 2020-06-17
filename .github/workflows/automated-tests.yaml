@@ -12,6 +12,7 @@ on:
 env:
   ENVIRONMENT: dev
   GITHUB_SHA: ${{ github.sha }}
+  ENVS: (["dev"]='edge' ["test"]='dev' ["demo"]='test')
 
 
 jobs:
@@ -28,9 +29,23 @@ jobs:
 
       - name: Promote data
         run: |
-          declare -a arr=([dev]="edge" [test]="dev" [2]="b" [3]="2" [4]="c" [5]="3")
-          src_env=${arr[${ENVIRONMENT}]}
-          dest_env=${ENVIRONMENT}
-          echo "Src Env = $src_env"
-          echo "Dest Env = $dest_env"
-          echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
+          declare -a arr=([dev]="a" [1]="1" [2]="b" [3]="2" [4]="c" [5]="3")
+          # for ((i=0; i<${#arr[@]}; i+=2)); do echo "${arr[i]} => ${arr[i+1]}"; done
+          echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
+
+
+
+      # - name: check source data env variable
+      #   run: |
+      #     echo ${{ env.SOURCE_DATA_ENV }}
+      # src_env="${{ env.env_data_map[${{ env.ENVIRONMENT }}] }}"
+      # echo "gs://base-bucket-${{ env.src_env }}/folder-name/* gs://base-bucket-${{ env.dest_env }}/folder-name"
+      # ::set-env name=SOURCE_DATA_ENV::${src_env}
+
+
+      # declare -a arr=([dev]="edge" [test]="dev" [2]="b" [3]="2" [4]="c" [5]="3")
+      # src_env=${arr[${ENVIRONMENT}]}
+      # dest_env=${ENVIRONMENT}
+      # echo "Src Env = $src_env"
+      # echo "Dest Env = $dest_env"
+      # echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
