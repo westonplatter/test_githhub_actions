@@ -34,10 +34,10 @@ jobs:
           env_data_map=( ["dev"]='edge' ["test"]='dev' ["demo"]='test' )
           dest_env="${ ENVIRONMENT }"
           echo dest_env
-          # src_env="${{ env.env_data_map[${{ env.ENVIRONMENT }}] }}"
-          # echo "gs://base-bucket-${{ env.src_env }}/folder-name/* gs://base-bucket-${{ env.dest_env }}/folder-name"
-          # ::set-env name=SOURCE_DATA_ENV::${src_env}
-
+          
       # - name: check source data env variable
       #   run: |
       #     echo ${{ env.SOURCE_DATA_ENV }}
+      # src_env="${{ env.env_data_map[${{ env.ENVIRONMENT }}] }}"
+      # echo "gs://base-bucket-${{ env.src_env }}/folder-name/* gs://base-bucket-${{ env.dest_env }}/folder-name"
+      # ::set-env name=SOURCE_DATA_ENV::${src_env}
