@@ -36,6 +36,8 @@ jobs:
           dest_env=${ENVIRONMENT}
           echo "Src Env = $src_env"
           echo "Dest Env = $dest_env"
+          echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
+
 
 
 
