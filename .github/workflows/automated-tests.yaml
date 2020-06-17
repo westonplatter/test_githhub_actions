@@ -1,0 +1,45 @@
+
+name: Automated Tests
+
+on:
+  push:
+    branches:
+      - '*'         # matches every branch
+      - '*/*'       # matches every branch containing a single '/'
+      #- '!master'   # excludes master
+      #- '!develop'   # excludes develop
+
+env:
+  ENVIRONMENT: dev
+  GITHUB_SHA: ${{ github.sha }}
+
+
+jobs:
+  automated-tests:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: echo bash version
+        run: |
+          echo "Bash Version is:"
+          bash --version
+
+      - name: Promote data
+        run: |
+          declare -A env_data_map
+          env_data_map=( ["dev"]='edge' ["test"]='dev' ["demo"]='test' )
+          dest_env="${{ env.ENVIRONMENT }}"
+          src_env="${{ env.env_data_map[${{ env.deploy_env }}] }}"
+          echo "gs://base-bucket-${{ env.src_env }}/folder-name/* gs://base-bucket-${{ env.dest_env }}/folder-name"
+          ::set-env name=SOURCE_DATA_ENV::${src_env}
+
+      - name: check source data env variable
+        run: |
+          echo ${{ env.SOURCE_DATA_ENV }}
+
+
+
