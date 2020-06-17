@@ -12,7 +12,7 @@ on:
 env:
   ENVIRONMENT: dev
   GITHUB_SHA: ${{ github.sha }}
-  ENVS: (["dev"]='edge' ["test"]='dev' ["demo"]='test')
+  ENV_MAPPING: "dev:edge,test:dev,demo:test"
 
 
 jobs:
@@ -29,13 +29,11 @@ jobs:
 
       - name: Promote data
         run: |
-          declare -a arr=([dev]="edge" [test]="dev" [demo]="test" [3]="2" [4]="c" [5]="3")
-          # for ((i=0; i<${#arr[@]}; i+=2)); do echo "${arr[i]} => ${arr[i+1]}"; done
-          # echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
-          src_env=${arr[${ENVIRONMENT}]}
-          dest_env=${ENVIRONMENT}
-          echo "data flow: $src_env => $dest_env"
-          echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
+           k=$ENVIRONMENT;
+           dest_env=$ENVIRONMENT
+           src_env=$(sed -E "s/(^|.*,)$k:([^,]*).*/\2/" <<< $ENV_MAPPING)
+           echo "flow: $src_env => $ENVIRONMENT"
+           echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
 
 
 
@@ -52,4 +50,11 @@ jobs:
       # dest_env=${ENVIRONMENT}
       # echo "Src Env = $src_env"
       # echo "Dest Env = $dest_env"
-      # echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
+
+
+      # declare -a arr=([dev]="a" [1]="1" [2]="b" [3]="2" [4]="c" [5]="3")
+      # for ((i=0; i<${#arr[@]}; i+=2)); do echo "$i => ${arr[i+1]}"; done
+      # echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
+      # src_env=${arr[${ENVIRONMENT}]}
+      # dest_env=${ENVIRONMENT}
+      # echo "flow: $src_env => $dest_env"
