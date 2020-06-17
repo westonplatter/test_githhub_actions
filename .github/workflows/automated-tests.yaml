@@ -32,9 +32,10 @@ jobs:
         run: |
           declare -A env_data_map
           env_data_map=( ["dev"]='edge' ["test"]='dev' ["demo"]='test' )
-          dest_env="${ ENVIRONMENT }"
+          dest_env=${ENVIRONMENT}
           echo dest_env
-          
+          echo $env_data_map
+
       # - name: check source data env variable
       #   run: |
       #     echo ${{ env.SOURCE_DATA_ENV }}
