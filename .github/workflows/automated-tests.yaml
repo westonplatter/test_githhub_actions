@@ -17,8 +17,6 @@ env:
 jobs:
   automated-tests:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
 
     steps:
       - uses: actions/checkout@v2
@@ -30,15 +28,9 @@ jobs:
 
       - name: Promote data
         run: |
-          declare -A env_data_map
-          ::set-env env_data_map( ["dev"]='edge' ["test"]='dev' ["demo"]='test' )
-          ::set-env name=dest_env::${ENVIRONMENT}
-          echo $dest_env
-          echo $env_data_map
-
-      # - name: check source data env variable
-      #   run: |
-      #     echo ${{ env.SOURCE_DATA_ENV }}
-      # src_env="${{ env.env_data_map[${{ env.ENVIRONMENT }}] }}"
-      # echo "gs://base-bucket-${{ env.src_env }}/folder-name/* gs://base-bucket-${{ env.dest_env }}/folder-name"
-      # ::set-env name=SOURCE_DATA_ENV::${src_env}
+          declare -a arr=([dev]="edge" [test]="dev" [2]="b" [3]="2" [4]="c" [5]="3")
+          src_env=${arr[${ENVIRONMENT}]}
+          dest_env=${ENVIRONMENT}
+          echo "Src Env = $src_env"
+          echo "Dest Env = $dest_env"
+          echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
