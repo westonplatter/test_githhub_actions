@@ -31,9 +31,9 @@ jobs:
       - name: Promote data
         run: |
           declare -A env_data_map
-          ::set-env name=env_data_map::( ["dev"]='edge' ["test"]='dev' ["demo"]='test' )
+          ::set-env env_data_map( ["dev"]='edge' ["test"]='dev' ["demo"]='test' )
           ::set-env name=dest_env::${ENVIRONMENT}
-          echo ${dest_env}
+          echo $dest_env
           echo $env_data_map
 
       # - name: check source data env variable
