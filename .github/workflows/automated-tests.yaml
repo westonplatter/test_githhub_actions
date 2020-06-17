@@ -29,7 +29,7 @@ jobs:
 
       - name: Promote data
         run: |
-          declare -a arr=([dev]="a" [1]="1" [2]="b" [3]="2" [4]="c" [5]="3")
+          declare -a arr=([dev]="edge" [test]="dev" [demo]="test")
           # for ((i=0; i<${#arr[@]}; i+=2)); do echo "${arr[i]} => ${arr[i+1]}"; done
           # echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
           src_env=${arr[${ENVIRONMENT}]}
