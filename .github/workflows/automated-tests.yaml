@@ -31,7 +31,11 @@ jobs:
         run: |
           declare -a arr=([dev]="a" [1]="1" [2]="b" [3]="2" [4]="c" [5]="3")
           # for ((i=0; i<${#arr[@]}; i+=2)); do echo "${arr[i]} => ${arr[i+1]}"; done
-          echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
+          # echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
+          src_env=${arr[${ENVIRONMENT}]}
+          dest_env=${ENVIRONMENT}
+          echo "Src Env = $src_env"
+          echo "Dest Env = $dest_env"
 
 
 
