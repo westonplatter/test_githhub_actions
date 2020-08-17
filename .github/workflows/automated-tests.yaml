@@ -60,3 +60,7 @@ jobs:
       - name: Kustomize Version
         run: |
           kustomize version
+
+      - name: output
+        run: |
+          echo 'hi'
