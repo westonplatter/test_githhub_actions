@@ -62,8 +62,8 @@ jobs:
         run: |
           kustomize version
 
-      - name: Cache Kubectl
-        id: cache-kubectl
+      - name: Cache Skaffold
+        id: cache-skaffold
         uses: actions/cache@v2
         with:
           path: cache-skaffold/skaffold
