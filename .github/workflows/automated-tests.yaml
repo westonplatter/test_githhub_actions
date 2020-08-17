@@ -25,7 +25,6 @@ jobs:
         id: cache-kubectl
         uses: actions/cache@v2
         with:
-          path: /usr/local/bin/kubectl
           key: kubectl-${{ env.KUBECTL_VERSION }}
 
       - name: Manually install kubectl
@@ -36,4 +35,4 @@ jobs:
       
       - name: Manually install kubectl
         run: |
-          echo {{ steps.cache-kubectl.outputs.cache-hit }}
+          echo ${{ steps.cache-kubectl.outputs.cache-hit }}
