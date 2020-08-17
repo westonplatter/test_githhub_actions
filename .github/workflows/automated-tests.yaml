@@ -41,15 +41,15 @@ jobs:
         run: |
           kubectl version --client=true
       
-      - name: Cache Kustomize
-        id: cache-kustomize
-        uses: actions/cache@v2
-        with:
-          path: cache-kustomize/kustomize
-          key: x-kustomize-${{ env.KUSTOMIZE_VERSION }}
+      # - name: Cache Kustomize
+      #   id: cache-kustomize
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: cache-kustomize/kustomize
+      #     key: x-kustomize-${{ env.KUSTOMIZE_VERSION }}
       
       - name: Manually install Kustomize
-        if: steps.cache-kustomize.outputs.cache-hit != 'true'
+        # if: steps.cache-kustomize.outputs.cache-hit != 'true'
         run:
           mkdir cache-kustomize;
           curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
