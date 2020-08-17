@@ -11,8 +11,7 @@ on:
 
 env:
   ENVIRONMENT: dev
-  GITHUB_SHA: ${{ github.sha }}
-  ENV_MAPPING: "dev:edge,test:dev,demo:test"
+  KUBECTL_VERSION: '1.18.2'
 
 
 jobs:
@@ -22,39 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: echo bash version
-        run: |
-          echo "Bash Version is:"
-          bash --version
+      - name: Cache Kubectl
+        id: cache-kubectl
+        uses: actions/cache@v2
+        with:
+          path: /usr/local/bin/kubectl
+          key: kubectl-${{ env.KUBECTL_VERSION }}
 
-      - name: Promote data
-        run: |
-           k=$ENVIRONMENT;
-           dest_env=$ENVIRONMENT
-           src_env=$(sed -E "s/(^|.*,)$k:([^,]*).*/\2/" <<< $ENV_MAPPING)
-           echo "flow: $src_env => $ENVIRONMENT"
-           echo "gs://base-bucket-${src_env}/folder-name/* gs://base-bucket-${dest_env}/folder-name"
-
-
-
-      # - name: check source data env variable
-      #   run: |
-      #     echo ${{ env.SOURCE_DATA_ENV }}
-      # src_env="${{ env.env_data_map[${{ env.ENVIRONMENT }}] }}"
-      # echo "gs://base-bucket-${{ env.src_env }}/folder-name/* gs://base-bucket-${{ env.dest_env }}/folder-name"
-      # ::set-env name=SOURCE_DATA_ENV::${src_env}
-
-
-      # declare -a arr=([dev]="edge" [test]="dev" [2]="b" [3]="2" [4]="c" [5]="3")
-      # src_env=${arr[${ENVIRONMENT}]}
-      # dest_env=${ENVIRONMENT}
-      # echo "Src Env = $src_env"
-      # echo "Dest Env = $dest_env"
-
-
-      # declare -a arr=([dev]="a" [1]="1" [2]="b" [3]="2" [4]="c" [5]="3")
-      # for ((i=0; i<${#arr[@]}; i+=2)); do echo "$i => ${arr[i+1]}"; done
-      # echo "${ENVIRONMENT} = ${arr[${ENVIRONMENT}]}"
-      # src_env=${arr[${ENVIRONMENT}]}
-      # dest_env=${ENVIRONMENT}
-      # echo "flow: $src_env => $dest_env"
+      - name: Manually install kubectl
+        if: steps.cache-kubectl.outputs.cache-hit != 'true'
+        run: curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
