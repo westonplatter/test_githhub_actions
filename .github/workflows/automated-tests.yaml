@@ -50,7 +50,7 @@ jobs:
     
       - name: Skaffold version
         run: |
-          echo 'testing cache-all strategy'
+          echo 'could this be real?'
           ls -als cache-k8s-tools
           ls -als /usr/local/bin
           skaffold version
