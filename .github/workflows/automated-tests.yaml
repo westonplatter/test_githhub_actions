@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: cache-kubectl/kubectl
-          key: kubectl-${{ env.KUBECTL_VERSION }}
+          key: kubectl-${{env.KUBECTL_VERSION}}
 
       - name: Manually install kubectl
         if: steps.cache-kubectl.outputs.cache-hit != 'true'
@@ -67,15 +67,15 @@ jobs:
         uses: actions/cache@v2
         with:
           path: cache-skaffold/skaffold
-          key: skaffold-${{ env.SKAFFOLD_VERSION }}
+          key: skaffold-${{env.SKAFFOLD_VERSION}}
 
       - name: Manually install skaffold
         if: steps.cache-skaffold.outputs.cache-hit != 'true'
         run: |
-          mkdir cache-skaffold;
-          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{ env.SKAFFOLD_VERSION }}/skaffold-linux-amd64 -o cache-skaffold/skaffold;
-          sudo cp cache-skaffold/skaffold /usr/local/bin/skaffold;
-          sudo chmod 777 /usr/local/bin/skaffold;
+          mkdir cache-skaffold
+          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-skaffold/skaffold
+          sudo cp cache-skaffold/skaffold /usr/local/bin/skaffold
+          sudo chmod 777 /usr/local/bin/skaffold
       
       - name: Skaffold version
         run: |
