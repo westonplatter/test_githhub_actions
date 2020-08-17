@@ -33,7 +33,3 @@ jobs:
         run: |
           sudo curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
-      
-      - name: Check version
-        run: |
-          kubectl -h
