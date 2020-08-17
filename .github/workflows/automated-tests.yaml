@@ -13,7 +13,7 @@ env:
   ENVIRONMENT: dev
   KUBECTL_VERSION: '1.18.2'
   KUSTOMIZE_VERSION: '3.5.3'
-  SKAFFOLD_VERSION: '1.10.0'
+  SKAFFOLD_VERSION: '1.10.1'
 
 jobs:
   automated-tests:
@@ -48,9 +48,8 @@ jobs:
           sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold;
           sudo chmod 777 /usr/local/bin/skaffold;
     
-      - name: Skaffold version
+      - name: Versions
         run: |
-          echo 'could this be real?'
-          ls -als cache-k8s-tools
-          ls -als /usr/local/bin
+          kubectl version --client
+          kustomize version
           skaffold version
