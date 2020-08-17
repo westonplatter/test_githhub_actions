@@ -30,7 +30,7 @@ jobs:
           key: all-k8s-tool-${{env.KUBECTL_VERSION}}
 
       - name: Manually install kubectl
-        # if: steps.cache-kubectl.outputs.cache-hit != 'true'
+        if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
           mkdir cache-kubectl
           curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-kubectl/kubectl
