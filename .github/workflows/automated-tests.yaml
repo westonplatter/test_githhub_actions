@@ -30,10 +30,10 @@ jobs:
           key: all-k8s-tool-{{ hashFiles('cache-k8s-tools/*') }}
 
       - name: Manually install kubectl
-        if: steps.cache-all.outputs.cache-hit != 'true'
+        # if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
           mkdir cache-k8s-tools
-          curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
+          curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
           sudo cp cache-k8s-tools/kubectl /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
       
@@ -52,7 +52,7 @@ jobs:
         # if: steps.cache-kustomize.outputs.cache-hit != 'true'
         run:
           # mkdir cache-kustomize;
-          curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
           mv kustomize cache-k8s-tools/kustomize;
           sudo cp cache-k8s-tools/kustomize /usr/local/bin/kustomize;
           sudo chmod 777 /usr/local/bin/kustomize;
