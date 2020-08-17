@@ -78,6 +78,6 @@ jobs:
       
       - name: Skaffold version
         run: |
-          echo 'boom'
+          echo 'boom boom?'
           ls -als /usr/local/bin
           skaffold version
