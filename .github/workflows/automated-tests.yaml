@@ -67,6 +67,6 @@ jobs:
       
       - name: Skaffold version
         run: |
-          echo 'changing the cache key'
+          echo 'testing cache-all strategy'
           ls -als /usr/local/bin
           skaffold version
