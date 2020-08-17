@@ -25,9 +25,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            cache-k8s-tools/kubectl
-            cache-k8s-tools/kustomize
-            cache-k8s-tools/skaffold
+            /usr/local/bin/kubectl
+            /usr/local/bin/kustomize
+            /usr/local/bin/skaffold
           key: all-k8s-tool-v3-{{ hashFiles('cache-k8s-tools/*') }}
       
       - name: Manually install kubectl
