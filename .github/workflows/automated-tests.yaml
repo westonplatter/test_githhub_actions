@@ -21,21 +21,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Hack to see if cache can introspect bin folder
-        run: |
-          sudo chmod -R 744 /usr/local/bin
-
       - name: Cache Kubectl
         id: cache-kubectl
         uses: actions/cache@v2
         with:
-          path: /usr/local/bin/kubectl
+          path: cache-kubectl/kubectl
           key: kubectl-${{ env.KUBECTL_VERSION }}
 
       - name: Manually install kubectl
         if: steps.cache-kubectl.outputs.cache-hit != 'true'
         run: |
-          sudo curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl
+          mkdir cache-kubectl
+          sudo curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-kubectl/kubectl
+          sudo cp cache-kubectl/kubectl /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
       
       - name: Manually install kubectl
