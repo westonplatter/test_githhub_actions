@@ -80,4 +80,5 @@ jobs:
       - name: Skaffold version
         run: |
           ls -als /usr/local/bin
+          echo 'test one more time'
           skaffold version
