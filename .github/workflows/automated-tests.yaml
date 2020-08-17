@@ -13,7 +13,7 @@ env:
   ENVIRONMENT: dev
   KUBECTL_VERSION: '1.18.2'
   KUSTOMIZE_VERSION: '3.5.3'
-  SKAFFOLD_VERSION: '1.10.1'
+  SKAFFOLD_VERSION: '1.10.0'
 
 jobs:
   automated-tests:
@@ -79,4 +79,5 @@ jobs:
       
       - name: Skaffold version
         run: |
+          ls -als /usr/local/bin
           skaffold version
