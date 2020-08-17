@@ -38,4 +38,4 @@ jobs:
       
       - name: Kubectl Version
         run: |
-          kubectl version
+          kubectl version --client=true
