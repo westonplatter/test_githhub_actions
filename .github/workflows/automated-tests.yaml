@@ -52,7 +52,8 @@ jobs:
         if: steps.cache-kustomize.outputs.cache-hit != 'true'
         run:
           mkdir cache-kustomize;
-          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz && mv kustomize cache-kustomize/kustomize;
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
+          mv kustomize cache-kustomize/kustomize;
           sudo cp cache-kustomize/kustomize /usr/local/bin/kustomize;
           sudo chmod 777 /usr/local/bin/kustomize;
       
