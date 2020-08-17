@@ -22,10 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Is tar installed?
-        run: |
-          tar --help
-
       - name: Cache Kubectl
         id: cache-kubectl
         uses: actions/cache@v2
