@@ -21,10 +21,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Hack to see if cache can introspect bin folder
+        run: |
+          sudo chmod -R 777 /usr/local/bin
+
       - name: Cache Kubectl
         id: cache-kubectl
         uses: actions/cache@v2
         with:
+          path: /usr/local/bin/kubectl
           key: kubectl-${{ env.KUBECTL_VERSION }}
 
       - name: Manually install kubectl
