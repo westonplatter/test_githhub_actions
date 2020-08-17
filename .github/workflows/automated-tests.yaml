@@ -29,7 +29,7 @@ jobs:
             /usr/local/bin/kustomize
             /usr/local/bin/skaffold
           key: all-k8s-tool-v3-{{ hashFiles('cache-k8s-tools/*') }}
-      
+
       - name: Manually install kubectl
         if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
@@ -47,9 +47,10 @@ jobs:
           curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold;
           sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold;
           sudo chmod 777 /usr/local/bin/skaffold;
-    
+
       - name: Versions
         run: |
           kubectl version --client
           kustomize version
           skaffold version
+
