@@ -53,3 +53,4 @@ jobs:
           kubectl version --client
           kustomize version
           skaffold version
+          
