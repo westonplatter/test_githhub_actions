@@ -36,3 +36,7 @@ jobs:
       - name: Manually install kubectl
         run: |
           echo ${{ steps.cache-kubectl.outputs.cache-hit }}
+      
+      - name: Manually install kubectl
+        run: |
+          kubectl -h
