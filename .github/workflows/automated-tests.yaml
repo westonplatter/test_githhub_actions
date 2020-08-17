@@ -79,5 +79,6 @@ jobs:
       
       - name: Skaffold version
         run: |
+          echo 'boom'
           ls -als /usr/local/bin
           skaffold version
