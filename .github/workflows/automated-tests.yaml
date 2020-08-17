@@ -13,7 +13,7 @@ env:
   ENVIRONMENT: dev
   KUBECTL_VERSION: '1.18.2'
   KUSTOMIZE_VERSION: '3.5.3'
-  SKAFFOLD_VERSION: '1.10.2'
+  SKAFFOLD_VERSION: '1.10.1'
 
 jobs:
   automated-tests:
