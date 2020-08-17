@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cache All
+      - name: Cache All k8s Tools
         id: cache-all
         uses: actions/cache@v2
         with:
@@ -28,7 +28,7 @@ jobs:
             /usr/local/bin/kubectl
             /usr/local/bin/kustomize
             /usr/local/bin/skaffold
-          key: all-k8s-tool-v3-{{ hashFiles('cache-k8s-tools/*') }}
+          key: all-k8s-tools-{{ hashFiles('/usr/local/bin/kubectl', '/usr/local/bin/kustomize', '/usr/local/bin/skaffold') }}
 
       - name: Manually install kubectl
         if: steps.cache-all.outputs.cache-hit != 'true'
@@ -53,4 +53,3 @@ jobs:
           kubectl version --client
           kustomize version
           skaffold version
-
