@@ -69,4 +69,5 @@ jobs:
         run: |
           echo 'testing cache-all strategy'
           ls -als cache-k8s-tools
+          ls -als /usr/local/bin
           # skaffold version
