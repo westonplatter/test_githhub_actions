@@ -26,8 +26,9 @@ jobs:
         with:
           path: |
             cache-k8s-tools/kubectl
+            cache-k8s-tools/kustomize
             cache-k8s-tools/skaffold
-          key: all-k8s-tool-{{ hashFiles('cache-k8s-tools/*') }}
+          key: all-k8s-tool-v2-{{ hashFiles('cache-k8s-tools/*') }}
       
       - name: Create cache folder
         if: steps.cache-all.outputs.cache-hit != 'true'
@@ -66,6 +67,6 @@ jobs:
       
       - name: Skaffold version
         run: |
-          echo 'or are we bombing?'
+          echo 'changing the cache key'
           ls -als /usr/local/bin
           skaffold version
