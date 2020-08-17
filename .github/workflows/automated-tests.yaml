@@ -20,17 +20,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Cache Kubectl
-        id: cache-kubectl
+      - name: Cache All
+        id: cache-all
         uses: actions/cache@v2
         with:
-          path: cache-kubectl/kubectl
-          key: x-kubectl-${{env.KUBECTL_VERSION}}
+          path: |
+            cache-kubectl/kubectl
+            cache-kubectl/skaffold
+          key: all-k8s-tool-${{env.KUBECTL_VERSION}}
 
       - name: Manually install kubectl
-        if: steps.cache-kubectl.outputs.cache-hit != 'true'
+        # if: steps.cache-kubectl.outputs.cache-hit != 'true'
         run: |
           mkdir cache-kubectl
           curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-kubectl/kubectl
@@ -62,15 +62,15 @@ jobs:
         run: |
           kustomize version
 
-      - name: Cache Skaffold
-        id: cache-skaffold
-        uses: actions/cache@v2
-        with:
-          path: cache-skaffold/skaffold
-          key: x-skaffold-${{env.SKAFFOLD_VERSION}}
+      # - name: Cache Skaffold
+      #   id: cache-skaffold
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: cache-skaffold/skaffold
+      #     key: x-skaffold-${{env.SKAFFOLD_VERSION}}
 
       - name: Manually install skaffold
-        if: steps.cache-skaffold.outputs.cache-hit != 'true'
+        if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
           mkdir cache-skaffold
           curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-skaffold/skaffold
