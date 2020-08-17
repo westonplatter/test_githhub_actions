@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: cache-kubectl/kubectl
-          key: kubectl-${{env.KUBECTL_VERSION}}
+          key: x-kubectl-${{env.KUBECTL_VERSION}}
 
       - name: Manually install kubectl
         if: steps.cache-kubectl.outputs.cache-hit != 'true'
@@ -41,15 +41,15 @@ jobs:
         run: |
           kubectl version --client=true
       
-      # - name: Cache Kustomize
-      #   id: cache-kustomize
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: cache-kustomize/kustomize
-      #     key: kustomize-${{ env.KUSTOMIZE_VERSION }}
+      - name: Cache Kustomize
+        id: cache-kustomize
+        uses: actions/cache@v2
+        with:
+          path: cache-kustomize/kustomize
+          key: x-kustomize-${{ env.KUSTOMIZE_VERSION }}
       
       - name: Manually install Kustomize
-        # if: steps.cache-kustomize.outputs.cache-hit != 'true'
+        if: steps.cache-kustomize.outputs.cache-hit != 'true'
         run:
           mkdir cache-kustomize;
           curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: cache-skaffold/skaffold
-          key: skaffold-${{env.SKAFFOLD_VERSION}}
+          key: x-skaffold-${{env.SKAFFOLD_VERSION}}
 
       - name: Manually install skaffold
         if: steps.cache-skaffold.outputs.cache-hit != 'true'
