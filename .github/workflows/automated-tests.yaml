@@ -36,10 +36,6 @@ jobs:
           sudo cp cache-kubectl/kubectl /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
       
-      - name: Manually install kubectl
+      - name: Kubectl Version
         run: |
-          echo ${{ steps.cache-kubectl.outputs.cache-hit }}
-      
-      - name: Manually install kubectl
-        run: |
-          kubectl -h
+          kubectl version
