@@ -24,9 +24,9 @@ jobs:
         id: cache-all
         uses: actions/cache@v2
         with:
-          path:
-            - cache-k8s-tools/kubectl
-            - cache-k8s-tools/skaffold
+          path: |
+            cache-k8s-tools/kubectl
+            cache-k8s-tools/skaffold
           key: all-k8s-tool-{{ hashFiles('cache-k8s-tools/*') }}
 
       - name: Manually install kubectl
