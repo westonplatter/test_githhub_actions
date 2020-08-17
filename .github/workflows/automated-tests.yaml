@@ -23,7 +23,7 @@ jobs:
 
       - name: Hack to see if cache can introspect bin folder
         run: |
-          sudo chmod -R 777 /usr/local/bin/kubectl
+          sudo chmod -R 744 /usr/local/bin
 
       - name: Cache Kubectl
         id: cache-kubectl
