@@ -53,7 +53,7 @@ jobs:
         run:
           mkdir cache-kustomize;
           curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
-          ls
+          ls;
           mv kustomize cache-kustomize/kustomize;
           sudo cp cache-kustomize/kustomize /usr/local/bin/kustomize;
           sudo chmod 777 /usr/local/bin/kustomize;
@@ -64,10 +64,10 @@ jobs:
 
       - name: Manually install skaffold
         run: |
-          mkdir cache-skaffold
-          curl -L https://github.com/GoogleContainerTools/skaffold/releases/download/v${{ env.SKAFFOLD_VERSION }}/skaffold-linux-amd64 -o cache-skaffold/skaffold
-          mv skaffold cache-skaffold/skaffold
-          sudo cp /usr/local/bin/skaffold
+          mkdir cache-skaffold;
+          curl -L https://github.com/GoogleContainerTools/skaffold/releases/download/v${{ env.SKAFFOLD_VERSION }}/skaffold-linux-amd64 -o cache-skaffold/skaffold;
+          mv skaffold cache-skaffold/skaffold;
+          sudo cp /usr/local/bin/skaffold;
           sudo chmod 777 /usr/local/bin/skaffold;
       
       - name: Skaffold version
