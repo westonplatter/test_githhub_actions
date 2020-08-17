@@ -62,10 +62,18 @@ jobs:
         run: |
           kustomize version
 
+      - name: Cache Kubectl
+        id: cache-kubectl
+        uses: actions/cache@v2
+        with:
+          path: cache-skaffold/skaffold
+          key: skaffold-${{ env.SKAFFOLD_VERSION }}
+
       - name: Manually install skaffold
+        if: steps.cache-skaffold.outputs.cache-hit != 'true'
         run: |
           mkdir cache-skaffold;
-          curl -L https://github.com/GoogleContainerTools/skaffold/releases/download/v${{ env.SKAFFOLD_VERSION }}/skaffold-linux-amd64 -o cache-skaffold/skaffold;
+          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{ env.SKAFFOLD_VERSION }}/skaffold-linux-amd64 -o cache-skaffold/skaffold;
           sudo cp cache-skaffold/skaffold /usr/local/bin/skaffold;
           sudo chmod 777 /usr/local/bin/skaffold;
       
