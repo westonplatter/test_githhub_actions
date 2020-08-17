@@ -59,7 +59,7 @@ jobs:
           kustomize version
 
       - name: Manually install skaffold
-        # if: steps.cache-all.outputs.cache-hit != 'true'
+        if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
           curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
           sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold
@@ -69,4 +69,4 @@ jobs:
         run: |
           echo 'testing cache-all strategy'
           ls -als cache-k8s-tools
-          skaffold version
+          # skaffold version
