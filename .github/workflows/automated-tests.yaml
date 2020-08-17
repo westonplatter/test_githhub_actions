@@ -28,43 +28,26 @@ jobs:
             cache-k8s-tools/kubectl
             cache-k8s-tools/kustomize
             cache-k8s-tools/skaffold
-          key: all-k8s-tool-v2-{{ hashFiles('cache-k8s-tools/*') }}
+          key: all-k8s-tool-v3-{{ hashFiles('cache-k8s-tools/*') }}
       
-      - name: Create cache folder
-        if: steps.cache-all.outputs.cache-hit != 'true'
-        run: |
-          mkdir cache-k8s-tools
-
       - name: Manually install kubectl
         if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
+          mkdir cache-k8s-tools;
+          echo 'Installing kubetcl';
           curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
           sudo cp cache-k8s-tools/kubectl /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
-      
-      - name: Kubectl Version
-        run: |
-          kubectl version --client=true
-      
-      - name: Manually install Kustomize
-        if: steps.cache-kustomize.outputs.cache-hit != 'true'
-        run:
+          echo 'Installing kustomize';
           curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
           mv kustomize cache-k8s-tools/kustomize;
           sudo cp cache-k8s-tools/kustomize /usr/local/bin/kustomize;
           sudo chmod 777 /usr/local/bin/kustomize;
-      
-      - name: Kustomize Version
-        run: |
-          kustomize version
-
-      - name: Manually install skaffold
-        if: steps.cache-all.outputs.cache-hit != 'true'
-        run: |
-          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
-          sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold
-          sudo chmod 777 /usr/local/bin/skaffold
-      
+          echo 'Installing Skaffold';
+          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold;
+          sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold;
+          sudo chmod 777 /usr/local/bin/skaffold;
+    
       - name: Skaffold version
         run: |
           echo 'testing cache-all strategy'
