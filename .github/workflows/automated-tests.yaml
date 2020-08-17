@@ -28,7 +28,7 @@ jobs:
             /usr/local/bin/kubectl
             /usr/local/bin/kustomize
             /usr/local/bin/skaffold
-          key: all-k8s-tools-{{ hashFiles('/usr/local/bin/kubectl', '/usr/local/bin/kustomize', '/usr/local/bin/skaffold') }}
+          key: all-k8s-tools-{{ hashFiles('cache-k8s-tools/*') }}
 
       - name: Manually install kubectl
         if: steps.cache-all.outputs.cache-hit != 'true'
