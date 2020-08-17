@@ -21,6 +21,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Check version
+        # if: steps.cache-kubectl.outputs.cache-hit != 'true'
+        run: |
+          curl --version
+
+      - name: confirm url
+        # if: steps.cache-kubectl.outputs.cache-hit != 'true'
+        run: |
+          echo https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl
+
+
       - name: Cache Kubectl
         id: cache-kubectl
         uses: actions/cache@v2
