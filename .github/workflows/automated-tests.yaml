@@ -30,4 +30,5 @@ jobs:
 
       - name: Manually install kubectl
         # if: steps.cache-kubectl.outputs.cache-hit != 'true'
-        run: curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
+        run: |
+          curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
