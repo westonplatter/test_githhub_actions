@@ -33,7 +33,7 @@ jobs:
         if: steps.cache-kubectl.outputs.cache-hit != 'true'
         run: |
           mkdir cache-kubectl
-          sudo curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-kubectl/kubectl
+          curl -L https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-kubectl/kubectl
           sudo cp cache-kubectl/kubectl /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
       
@@ -41,18 +41,19 @@ jobs:
         run: |
           kubectl version --client=true
       
-      - name: Cache Kustomize
-        id: cache-kustomize
-        uses: actions/cache@v2
-        with:
-          path: cache-kustomize/kustomize
-          key: kustomize-${{ env.KUSTOMIZE_VERSION }}
+      # - name: Cache Kustomize
+      #   id: cache-kustomize
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: cache-kustomize/kustomize
+      #     key: kustomize-${{ env.KUSTOMIZE_VERSION }}
       
       - name: Manually install Kustomize
-        if: steps.cache-kustomize.outputs.cache-hit != 'true'
+        # if: steps.cache-kustomize.outputs.cache-hit != 'true'
         run:
           mkdir cache-kustomize;
-          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
+          curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
+          ls
           mv kustomize cache-kustomize/kustomize;
           sudo cp cache-kustomize/kustomize /usr/local/bin/kustomize;
           sudo chmod 777 /usr/local/bin/kustomize;
@@ -61,6 +62,14 @@ jobs:
         run: |
           kustomize version
 
-      - name: output
+      - name: Manually install skaffold
         run: |
-          echo 'hi'
+          mkdir cache-skaffold
+          curl -L https://github.com/GoogleContainerTools/skaffold/releases/download/v${{ env.SKAFFOLD_VERSION }}/skaffold-linux-amd64 -o cache-skaffold/skaffold
+          mv skaffold cache-skaffold/skaffold
+          sudo cp /usr/local/bin/skaffold
+          sudo chmod 777 /usr/local/bin/skaffold;
+      
+      - name: Skaffold version
+        run: |
+          skaffold version
