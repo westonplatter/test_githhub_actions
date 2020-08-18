@@ -33,6 +33,9 @@ jobs:
         run: |
           if [[ "$CACHE_HIT" == 'true' ]]; then
             sudo cp --verbose --force --recursive cache-k8s-tools/* /usr/local/bin/
+            sudo chmod 777 /usr/local/bin/kubectl
+            sudo chmod 777 /usr/local/bin/kustomize
+            sudo chmod 777 /usr/local/bin/skaffold
           else
             mkdir cache-k8s-tools
             echo 'Installing kubetcl'
