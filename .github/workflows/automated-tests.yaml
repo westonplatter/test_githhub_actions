@@ -20,14 +20,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cache All k8s Tools
+      - name: Cache k8s tooling
         id: cache-all
         uses: actions/cache@v2
         with:
           path: "cache-k8s-tools"
           key: "k8s-tools-kub-${{ env.KUBECTL_VERSION }}-kus-${{ env.KUSTOMIZE_VERSION }}-ska-${{ env.SKAFFOLD_VERSION }}"
 
-      - name: Manually install kubectl
+      - name: Manually install k8s tooling
         env:
           CACHE_HIT: ${{steps.cache-all.outputs.cache-hit}}
         run: |
