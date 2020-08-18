@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "cache-k8s-tools"
-          key: "k8s-tooling-${{ hashFiles('cache-k8s-tools/*') }}"
+          key: "k8s-tooling-${{ hashFiles(cache-k8s-tools/*) }}"
 
       - name: List files in folder
         run: |
@@ -36,22 +36,24 @@ jobs:
           CACHE_HIT: ${{steps.cache-all.outputs.cache-hit}}
         run: |
           if [[ "$CACHE_HIT" == 'true' ]]; then
+            echo "Copy binaries from local cache"
             sudo cp --verbose --force --recursive cache-k8s-tools/* /usr/local/bin/
             sudo chmod 777 /usr/local/bin/kubectl
             sudo chmod 777 /usr/local/bin/kustomize
             sudo chmod 777 /usr/local/bin/skaffold
           else
+            echo "Download, create cache, copy binaries"
             mkdir cache-k8s-tools
-            echo 'Installing kubetcl'
+            echo 'Install kubetcl'
             curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
             sudo cp cache-k8s-tools/kubectl /usr/local/bin/kubectl
             sudo chmod 777 /usr/local/bin/kubectl
-            echo 'Installing kustomize'
+            echo 'Install kustomize'
             curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz
             mv kustomize cache-k8s-tools/kustomize
             sudo cp cache-k8s-tools/kustomize /usr/local/bin/kustomize
             sudo chmod 777 /usr/local/bin/kustomize
-            echo 'Installing Skaffold'
+            echo 'Install Skaffold'
             curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
             sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold
             sudo chmod 777 /usr/local/bin/skaffold
