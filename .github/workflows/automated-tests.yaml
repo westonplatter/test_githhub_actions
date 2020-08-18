@@ -55,10 +55,6 @@ jobs:
             sudo chmod 777 /usr/local/bin/skaffold
           fi
 
-      - name: List files in folder
-        run: |
-          ls -als cache-k8s-tools/*
-          
       - name: Versions
         run: |
           kubectl version --client
