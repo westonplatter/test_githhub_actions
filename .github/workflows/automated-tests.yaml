@@ -53,7 +53,6 @@ jobs:
 
       - name: Versions
         run: |
-          ls -als
           kubectl version --client
           kustomize version
           skaffold version
