@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "cache-k8s-tools"
-          key: "k8s-tooling-${{ hashFiles('cache-k8s-tools/kustomize') }}"
+          key: "k8s-tools-${{ hashFiles('cache-k8s-tools/kustomize') }}"
 
       - name: List files in folder
         run: |
