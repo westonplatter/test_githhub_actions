@@ -27,6 +27,10 @@ jobs:
           path: "cache-k8s-tools"
           key: "k8s-tooling-${{ hashFiles('cache-k8s-tools/*') }}"
 
+      - name: List files in folder
+        run: |
+          ls -als cache-k8s-tools/*
+
       - name: Manually install kubectl
         env:
           CACHE_HIT: ${{steps.cache-all.outputs.cache-hit}}
