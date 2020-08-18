@@ -33,24 +33,23 @@ jobs:
       - name: Manually install kubectl
         if: steps.cache-all.outputs.cache-hit != 'true'
         run: |
-          mkdir cache-k8s-tools;
-          echo 'Installing kubetcl';
+          mkdir cache-k8s-tools
+          echo 'Installing kubetcl'
           curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
           sudo cp cache-k8s-tools/kubectl /usr/local/bin/kubectl
           sudo chmod 777 /usr/local/bin/kubectl
-          echo 'Installing kustomize';
-          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz;
-          mv kustomize cache-k8s-tools/kustomize;
-          sudo cp cache-k8s-tools/kustomize /usr/local/bin/kustomize;
-          sudo chmod 777 /usr/local/bin/kustomize;
-          echo 'Installing Skaffold';
-          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold;
-          sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold;
-          sudo chmod 777 /usr/local/bin/skaffold;
+          echo 'Installing kustomize'
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz
+          mv kustomize cache-k8s-tools/kustomize
+          sudo cp cache-k8s-tools/kustomize /usr/local/bin/kustomize
+          sudo chmod 777 /usr/local/bin/kustomize
+          echo 'Installing Skaffold'
+          curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
+          sudo cp cache-k8s-tools/skaffold /usr/local/bin/skaffold
+          sudo chmod 777 /usr/local/bin/skaffold
 
       - name: Versions
         run: |
           kubectl version --client
           kustomize version
           skaffold version
-          
