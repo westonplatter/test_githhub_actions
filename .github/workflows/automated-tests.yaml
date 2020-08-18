@@ -32,7 +32,7 @@ jobs:
         with:
           path: "cache-k8s-tools/kubectl"
           key: "k8s-tools-kubetcl-${{ env.KUBECTL_VERSION }}"
-      - name: Manually install kubectl
+      - name: Install/configure kubectl
         env:
           CACHE_HIT: ${{steps.cache-kubectl.outputs.cache-hit}}
         run: |
