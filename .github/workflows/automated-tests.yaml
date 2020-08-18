@@ -52,7 +52,6 @@ jobs:
 
       - name: Versions
         run: |
-          echo "does this really work"
           kubectl version --client
           kustomize version
           skaffold version
