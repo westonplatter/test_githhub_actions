@@ -43,6 +43,7 @@ jobs:
             curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
             chmod +x cache-k8s-tools/kubectl
           fi
+          kubectl version --client
 
       - name: Cache Kustomize
         id: cache-kustomize
@@ -50,7 +51,7 @@ jobs:
         with:
           path: "cache-k8s-tools/kustomize"
           key: "k8s-tools-kustomize-${{ env.KUSTOMIZE_VERSION }}"
-      - name: Manually install kustomize
+      - name: Install/configure kustomize
         env:
           CACHE_HIT: ${{steps.cache-kustomize.outputs.cache-hit}}
         run: |
@@ -61,6 +62,7 @@ jobs:
             mv kustomize cache-k8s-tools/kustomize
             chmod +x cache-k8s-tools/kustomize
           fi
+          kustomize version
 
       - name: Cache skaffold
         id: cache-skaffold
@@ -68,7 +70,7 @@ jobs:
         with:
           path: "cache-k8s-tools/skaffold"
           key: "k8s-tools-skaffold-${{ env.SKAFFOLD_VERSION }}"
-      - name: Manually install skaffold
+      - name: Install/configure skaffold
         env:
           CACHE_HIT: ${{steps.cache-skaffold.outputs.cache-hit}}
         run: |
@@ -78,9 +80,4 @@ jobs:
             curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
             chmod +x cache-k8s-tools/skaffold
           fi
-
-      - name: Versions
-        run: |
-          kubectl version --client
-          kustomize version
           skaffold version
