@@ -20,64 +20,51 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Add cache-k8s-tools to path
-        run: |
-          echo "Add folder to path"
-          mkdir -p cache-k8s-tools
-          echo "::add-path::$GITHUB_WORKSPACE/cache-k8s-tools"
+          - name: Add cache-k8s-tools to path
+      run: |
+        echo "Add folder to path"
+        mkdir -p cache-k8s-tools
+        echo "::add-path::$GITHUB_WORKSPACE/cache-k8s-tools"
 
-      - name: Cache kubectl
-        id: cache-kubectl
-        uses: actions/cache@v2
-        with:
-          path: "cache-k8s-tools/kubectl"
-          key: "k8s-tools-kubetcl-${{ env.KUBECTL_VERSION }}"
-      - name: Install/configure kubectl
-        env:
-          CACHE_HIT: ${{steps.cache-kubectl.outputs.cache-hit}}
-        run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            echo "kubectl already installed"
-          else
-            echo 'Install kubetcl'
-            curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
-            chmod +x cache-k8s-tools/kubectl
-          fi
-          kubectl version --client
+    - name: Cache kubectl
+      id: cache-kubectl
+      uses: actions/cache@v2
+      with:
+        path: "cache-k8s-tools/kubectl"
+        key: "k8s-tools-kubetcl-${{ env.KUBECTL_VERSION }}"
 
-      - name: Cache Kustomize
-        id: cache-kustomize
-        uses: actions/cache@v2
-        with:
-          path: "cache-k8s-tools/kustomize"
-          key: "k8s-tools-kustomize-${{ env.KUSTOMIZE_VERSION }}"
-      - name: Install/configure kustomize
-        env:
-          CACHE_HIT: ${{steps.cache-kustomize.outputs.cache-hit}}
-        run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            echo "kustomize already installed"
-          else
-            curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz
-            mv kustomize cache-k8s-tools/kustomize
-            chmod +x cache-k8s-tools/kustomize
-          fi
-          kustomize version
+    - name: Install/configure kubectl
+      if: ${{steps.cache-kubectl.outputs.cache-hit}} != 'true'
+      run: |
+        curl -sL https://storage.googleapis.com/kubernetes-release/release/v${{env.KUBECTL_VERSION}}/bin/linux/amd64/kubectl -o cache-k8s-tools/kubectl
+        chmod +x cache-k8s-tools/kubectl
+        kubectl version --client
 
-      - name: Cache skaffold
-        id: cache-skaffold
-        uses: actions/cache@v2
-        with:
-          path: "cache-k8s-tools/skaffold"
-          key: "k8s-tools-skaffold-${{ env.SKAFFOLD_VERSION }}"
-      - name: Install/configure skaffold
-        env:
-          CACHE_HIT: ${{steps.cache-skaffold.outputs.cache-hit}}
-        run: |
-          if [[ "$CACHE_HIT" == 'true' ]]; then
-            echo "skaffold already installed"
-          else
-            curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
-            chmod +x cache-k8s-tools/skaffold
-          fi
-          skaffold version
+    - name: Cache Kustomize
+      id: cache-kustomize
+      uses: actions/cache@v2
+      with:
+        path: "cache-k8s-tools/kustomize"
+        key: "k8s-tools-kustomize-${{ env.KUSTOMIZE_VERSION }}"
+
+    - name: Install/configure kustomize
+      if: ${{steps.cache-kustomize.outputs.cache-hit}} != 'true'
+      run: |
+        curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${{ env.KUSTOMIZE_VERSION }}/kustomize_v${{ env.KUSTOMIZE_VERSION }}_linux_amd64.tar.gz | tar xz
+        mv kustomize cache-k8s-tools/kustomize
+        chmod +x cache-k8s-tools/kustomize
+        kustomize version
+
+    - name: Cache skaffold
+      id: cache-skaffold
+      uses: actions/cache@v2
+      with:
+        path: "cache-k8s-tools/skaffold"
+        key: "k8s-tools-skaffold-${{ env.SKAFFOLD_VERSION }}"
+
+    - name: Install/configure skaffold
+      if: ${{steps.cache-skaffold.outputs.cache-hit}} != 'true'
+      run: |
+        curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
+        chmod +x cache-k8s-tools/skaffold
+        skaffold version
