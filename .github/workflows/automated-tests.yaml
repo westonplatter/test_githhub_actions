@@ -47,10 +47,13 @@ jobs:
             echo 'Install Skaffold'
             curl -sL https://github.com/GoogleContainerTools/skaffold/releases/download/v${{env.SKAFFOLD_VERSION}}/skaffold-linux-amd64 -o cache-k8s-tools/skaffold
             chmod +x cache-k8s-tools/skaffold
+            echo "Add folder to path"
+            echo "::add-path::$GITHUB_WORKSPACE/cache-k8s-tools"
           fi
 
       - name: Versions
         run: |
+          ls -als
           kubectl version --client
           kustomize version
           skaffold version
